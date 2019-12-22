@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Car Price Estimator</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div id="carForm">
+        <div class="form-group">
+            <label for="brands">Μάρκα</label>
+            <select class="form-control" id="brands">
+                <option value="" disabled selected>Διαλέξτε μάρκα</option>
+            </select>
+            <label for="brands">Μάρκα</label>
+            <select class="form-control" disabled id="models">
+                <option value="" disabled selected>Διαλέξτε μοντέλο</option>
+            </select>
+            <label for="year">Χρονολογία</label>
+            <input type="number" name="year" min="1970" placeholder="Χρονολογία Κατασκευής" max="2019">
+            <label for="transmission">Κιβώτιο ταχυτήτων</label>
+            <select class="form-control" id="transmission">
+                <option value="" disabled selected>Κιβώτιο ταχυτήτων</option>
+                <option value="M">Χειροκίνητο</option>
+                <option value="A">Αυτόματο</option>
+                <option value="S">Ημιαυτόματο</option>
+            </select>
+            <label for="fuel">Καύσιμο</label>
+            <select class="form-control" id="fuel">
+                <option value="" disabled selected>Καύσιμο</option>
+                <option value="V">Βενζίνη</option>
+                <option value="D">Πετρέλαιο</option>
+                <option value="V&LPG">Βενζίνη & LPG</option>
+                <option value="HV">Βενζίνη (Υβριδικό)</option>
+                <option value="HD">Πετρέλαιο (Υβριδικό)</option>
+                <option value="CNG">Φυσικό αέριο (CNG)</option>
+                <option value="E">Ηλεκτρικό</option>
+            </select>
+            <label for="mileage">Χιλιόμετρα</label>
+            <input type="number" name="mileage" min=0 placeholder="Χιλιόμετρα">
+            <label for="horsepower">Ιπποδύναμη</label>
+            <input type="number" name="horsepower" min=0 max=2000 placeholder="Ιπποδύναμη">
+            <label for="displacement">Κυβισμός</label>
+            <input type="number" name="displacement" min=0  max=9999 placeholder="Κυβισμός">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">Υπάρχει ζημιά;</label>
+                <span id="switchLegend">Όχι</span>
+            </div>
+            <button type="button" id="estimatorBtn" class="btn btn-primary">Εκτίμηση</button>
+        </div>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+<script src='brandsnmodels.js'></script>
+
+</html>
