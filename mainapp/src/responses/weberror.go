@@ -14,7 +14,7 @@ type jsonError struct {
 WebError function
 returns a json error
 */
-func WebError(w http.ResponseWriter, r *http.Request, msg string, status int) {
+func WebError(w http.ResponseWriter, msg string, status int) {
 	err := jsonError{msg, status}
 	response, _ := json.MarshalIndent(err, "", "\t")
 	w.Write(response)

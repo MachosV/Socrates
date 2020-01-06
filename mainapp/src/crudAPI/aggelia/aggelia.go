@@ -1,10 +1,16 @@
 package aggelia
 
 import (
+	"context"
+	"dbmanager"
+	"log"
 	"middleware"
 	"mux"
 	"net/http"
 	"responses"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 /*
@@ -12,6 +18,7 @@ Aggelia struct
 holds information about the car being published
 */
 type Aggelia struct {
+	ID    string   `json:"id"`
 	Make  string   `json:"make"`
 	Model string   `json:"model"`
 	Tags  []string `json:"tags"`
@@ -34,24 +41,34 @@ func init() {
 
 func createAggelia(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		responses.WebError(w, r, "Invalid method", http.StatusBadRequest)
+		responses.WebError(w, "Invalid method", http.StatusBadRequest)
 		return
 	}
 	body, err := r.GetBody()
 	if err != nil {
-		responses.WebError(w, r, "Malformed body", http.StatusBadRequest)
+		responses.WebError(w, "Malformed body", http.StatusBadRequest)
 		return
 	}
 	_ = body
 }
 
 func retrieveAggelia(w http.ResponseWriter, r *http.Request) {
-	strArray := []string{"Black", "Diesel", "1400"}
-	aggelia := Aggelia{
-		"Mini",
-		"ONE D",
-		strArray}
-	responses.SendResponse(w, r, aggelia)
+	collection := dbmanager.GetDbAggelies()
+	log.Println(collection.Name())
+	aggelia := Aggelia{}
+	id := r.URL.Query().Get("id")
+	docID, _ := primitive.ObjectIDFromHex(id)
+	err := collection.FindOne(context.TODO(), bson.M{"_id": docID}).Decode(&aggelia)
+	if err != nil {
+		switch err.Error() {
+		case "mongo: no documents in result":
+			responses.SendResponse(w, map[string]string{
+				"data": "not found",
+			})
+		}
+	} else {
+		responses.SendResponse(w, aggelia)
+	}
 }
 
 func updateAggelia(w http.ResponseWriter, r *http.Request) {

@@ -33,9 +33,9 @@ func init() {
 }
 
 /*
-GetDbClient function returns a client object
+GetDbAggelies function returns a client object
 to the mongo db
 */
-func GetDbClient() *mongo.Client {
-	return client
+func GetDbAggelies() *mongo.Collection {
+	return client.Database("myapp").Collection("aggelies")
 }

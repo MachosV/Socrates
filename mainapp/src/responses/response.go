@@ -14,7 +14,7 @@ type response struct {
 SendResponse function
 will send a json response back to the client
 */
-func SendResponse(w http.ResponseWriter, r *http.Request, data interface{}) {
+func SendResponse(w http.ResponseWriter, data interface{}) {
 	response := response{data, http.StatusOK}
 	jsonresponse, _ := json.MarshalIndent(response, "", "\t")
 	w.Write(jsonresponse)
