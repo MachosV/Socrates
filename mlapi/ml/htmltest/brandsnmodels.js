@@ -816,6 +816,9 @@ var brandsjson = JSON.parse(brands)
 var brandsnmodelsjson = JSON.parse(brandsnmodels)
 var brandSelect = document.getElementById("brands")
 var modelSelect = document.getElementById("models")
+var hasDamage = false;
+var damageLegend = document.getElementById("damageLegend")
+var resultP = document.getElementById("result")
 
 $( document ).ready(function() {
     for(i=0;i<brandsjson.Brands.length;i++){
@@ -846,3 +849,52 @@ $(document).on('change','#brands',function(){
     }
 });
 
+$(document).on('change','#hasDamage',function(){
+    hasDamage = !hasDamage;
+    damageLegend.innerHTML = "";
+    if (hasDamage){
+        damageLegend.innerHTML = "Ναι";
+    }else{
+        damageLegend.innerHTML = "Όχι";
+    }
+});
+
+$(document).on('click','#estimatorBtn',function(){
+    var brand = brandSelect.value;
+    var model = modelSelect.value;
+    var year = document.getElementById("year").value;
+    var transmission = document.getElementById("transmission").value;
+    var fuel = document.getElementById("fuel").value;
+    var mileage = document.getElementById("mileage").value;
+    var horsepower = document.getElementById("horsepower").value;
+    var displacement = document.getElementById("displacement").value;
+    var damage = 0
+    if (hasDamage){
+        damage = 1;
+    }
+    var postData = new Object();
+    postData.Brand = brand;
+    postData.Model = model;
+    postData.Year = parseInt(year);
+    postData.Year = postData.Year % 100;
+    postData.Transmission = transmission;
+    postData.Fuel = fuel;
+    postData.Mileage = parseInt(mileage);
+    postData.Horsepower = parseInt(horsepower);
+    postData.Displacement = parseInt(displacement);
+    postData.Damage = damage
+    var data = JSON.stringify(postData)
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            renderResult(this.responseText)
+        }
+      };
+      xhttp.open("POST", "http://localhost/api/carPriceEstimate", true);
+      xhttp.send(data);
+});
+
+function renderResult(data){
+    var data = JSON.parse(data)
+    document.getElementById("result").innerHTML = data.estimation+" ευρώ";
+}

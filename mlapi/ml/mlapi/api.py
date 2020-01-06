@@ -8,7 +8,7 @@ model = load("prod_model86.ml_model")
 encoders = load("encoders.encoder")
 object_cols = load("object_cols.cols")
 
-@mlapi.route("/api/carPriceEstimate",methods=["POST"])
+@mlapi.route("/api/carPriceEstimate",methods=['POST'])
 def carPriceEstimate():
     data_dict = json.loads(request.data)
     to_estimate = []
@@ -30,5 +30,6 @@ def carPriceEstimate():
         X_unseen[col] = encoder.transform(X_unseen[col])
         index += 1
     data = {}
-    data["estimation"] = str(model.predict(X_unseen)[0])
+    estimation = "{0:.2f}".format(model.predict(X_unseen)[0])
+    data["estimation"] = estimation
     return json.dumps(data,indent=4)
